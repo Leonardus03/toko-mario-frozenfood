@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOKOMARIO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+    }
+
+    header {
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+              url('https://images.unsplash.com/photo-1600891963935-c8565b62fe4f') center/cover no-repeat;
+  color: white;
+  text-align: center;
+  padding: 2rem 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-weight: 300;
+      font-size: 1rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .info {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .item {
+      background-color: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+      transition: transform 0.3s ease;
+      text-align: center;
+      padding-bottom: 1rem;
+    }
+
+    .item:hover {
+      transform: translateY(-5px);
+    }
+
+    .item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .item h4 {
+      margin: 1rem 0 0.5rem;
+      font-size: 1.2rem;
+      color: #ff3838;
+    }
+
+    .item span {
+      display: block;
+      font-weight: bold;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    .wa-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .wa-button:hover {
+      background: linear-gradient(135deg, #20bd5f, #0f6f5e);
+      transform: translateY(-3px);
+    }
+
+    .wa-button img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    .qr-code {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #f5f5f5;
+      color: #777;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+
+    #cartList {
+      list-style: none;
+      padding-left: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TOKOMARIO</h1>
+    <p>📦 Bisa DO & Datang Langsung ke BLOK F32 NO 17 GCC</p>
+  </header>
+
+  <div class="container">
+    <div class="info">
+      <p>📱 Hubungi via WhatsApp: <strong>0822-1057-2894</strong></p>
+    </div>
+
+    <div class="grid" id="productGrid"></div>
+
+    <h3>🛒 Daftar Pesanan</h3>
+    <ul id="cartList"></ul>
+    <p id="totalHarga" style="font-weight: bold; margin-top: 1rem;">Total: Rp 0</p>
+    <a id="orderButton" class="wa-button" href="#" target="_blank" style="display:none;">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WA"> Kirim Pesanan via WA
+    </a>
+
+    <div class="qr-code">
+      <h3>Scan QR untuk Chat WhatsApp</h3>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://wa.me/6282210572894" alt="QR WA">
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 TOKOMARIO. All rights reserved.</p>
+  </footer>
+
+ <script>
+  const produk = [
+    ["Rolade", 14000], ["Fisrol", 15000], ["Otak² ikan 1 kg", 18000], ["Cikuwa CEDEA 500 gr", null],
+    ["Chikuwa sifudo", 28000], ["Chikuwa mitraku", 17000], ["Sosis max", 26000], ["Sosis geboy", 20000],
+    ["Geboy 1 kg", 35000], ["Sosis Vigo", 26000], ["Saus cabe/tomat", 8000], ["Sosis champ", 20000],
+    ["Sosis beres merah", 37000], ["Sakana dimsum", 25000], ["Steamboat CEDEA", 26000],
+    ["Steamboat tumyum", null], ["Sifudo fisrol", 24000], ["Scallop", 25000], ["Keju mozarella", null],
+    ["Kembang cumi", null], ["Kentang gogo", 34000], ["Kentang fiesta", 22000], ["Bakso ayam Belfoods", 18000],
+    ["Basreng tuna", 16000], ["Bakso ikan mitraku", 13000], ["BMS 25", 20000], ["BMS 50", 23000],
+    ["Bakso mix", 15500], ["Bef burger", 12000], ["Bento Egg Rol", 24000], ["D.keju", 28500],
+    ["D.Ayam", 28500], ["Duo twister", null], ["Fish tofu", 24000], ["SO ECO 1 kg", 34000],
+    ["Nuget kanzler", 43000], ["Nuget salam", 20000], ["Cikiwiki burger", null], ["Ekor udang", 15000],
+    ["Minipao", 17000], ["Mamayo 1 kg", 26000], ["Mie telur", 5000], ["Bihun", 4500],
+    ["Bumbu TUmyum", null]
+  ];
+
+  const grid = document.getElementById("productGrid");
+  const cart = [];
+  const cartList = document.getElementById("cartList");
+  const totalHargaEl = document.getElementById("totalHarga");
+  const orderButton = document.getElementById("orderButton");
+
+  function formatRupiah(angka) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(angka);
+  }
+
+  function updateCartDisplay() {
+    cartList.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.style.display = "flex";
+      li.style.justifyContent = "space-between";
+      li.style.alignItems = "center";
+      li.style.marginBottom = "8px";
+
+      const label = document.createElement("span");
+      label.textContent = `${item.nama} - ${item.harga ? formatRupiah(item.harga) : 'Harga belum tersedia'}`;
+
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "❌";
+      removeBtn.style.background = "transparent";
+      removeBtn.style.border = "none";
+      removeBtn.style.cursor = "pointer";
+      removeBtn.style.fontSize = "1.1rem";
+      removeBtn.title = "Hapus";
+
+      removeBtn.onclick = () => {
+        cart.splice(index, 1);
+        updateCartDisplay();
+      };
+
+      li.appendChild(label);
+      li.appendChild(removeBtn);
+      cartList.appendChild(li);
+
+      if (item.harga) total += item.harga;
+    });
+
+    totalHargaEl.textContent = "Total: " + formatRupiah(total);
+
+    if (cart.length > 0) {
+      const listText = cart.map(item =>
+        `${item.nama}${item.harga ? ` - ${formatRupiah(item.harga)}` : ''}`
+      ).join("\n- ");
+      const message = encodeURIComponent("Halo, saya ingin memesan:\n- " + listText + `\n\nTotal: ${formatRupiah(total)}`);
+      orderButton.href = `https://wa.me/6282210572894?text=${message}`;
+      orderButton.style.display = "inline-flex";
+    } else {
+      orderButton.style.display = "none";
+    }
+  }
+
+  produk.forEach(([nama, harga]) => {
+    grid.innerHTML += `
+      <div class="item">
+        <img src="images/default.jpg" alt="${nama}">
+        <h4>${nama}</h4>
+        <span>${harga ? formatRupiah(harga) : 'Harga belum tersedia'}</span>
+        <button onclick="addToCart('${nama}', ${harga ?? null})" class="wa-button" style="margin-bottom:10px;">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/plus-math.png" alt="Add">Tambah ke Pesanan
+        </button>
+        <a class="wa-button" href="https://wa.me/6282210572894?text=Halo%20Saya%20mau%20pesan%20${encodeURIComponent(nama)}" target="_blank">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WA">Pesan via WA
+        </a>
+      </div>
+    `;
+  });
+
+  window.addToCart = function(nama, harga) {
+    cart.push({ nama, harga });
+    updateCartDisplay();
+  };
+</script>
